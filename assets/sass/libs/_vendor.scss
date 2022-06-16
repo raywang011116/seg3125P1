@@ -1,9 +1,8 @@
-// vendor.scss v1.0 | @ajlkn | MIT licensed */
+
 
 // Vars.
 
-	/// Vendor prefixes.
-	/// @var {list}
+
 	$vendor-prefixes: (
 		'-moz-',
 		'-webkit-',
@@ -11,9 +10,7 @@
 		''
 	);
 
-	/// Properties that should be vendorized.
-	/// Data via caniuse.com, github.com/postcss/autoprefixer, and developer.mozilla.org
-	/// @var {list}
+
 	$vendor-properties: (
 
 		// Animation.
@@ -192,9 +189,7 @@
 
 	);
 
-	/// Values that should be vendorized.
-	/// Data via caniuse.com, github.com/postcss/autoprefixer, and developer.mozilla.org
-	/// @var {list}
+
 	$vendor-values: (
 
 		// Cross fade.
@@ -249,11 +244,6 @@
 
 // Functions.
 
-	/// Removes a specific item from a list.
-	/// @author Hugo Giraudel
-	/// @param {list} $list List.
-	/// @param {integer} $index Index.
-	/// @return {list} Updated list.
 	@function remove-nth($list, $index) {
 
 		$result: null;
@@ -286,12 +276,7 @@
 
 	}
 
-	/// Replaces a substring within another string.
-	/// @author Hugo Giraudel
-	/// @param {string} $string String.
-	/// @param {string} $search Substring.
-	/// @param {string} $replace Replacement.
-	/// @return {string} Updated string.
+
 	@function str-replace($string, $search, $replace: '') {
 
 		$index: str-index($string, $search);
@@ -304,11 +289,7 @@
 
 	}
 
-	/// Replaces a substring within each string in a list.
-	/// @param {list} $strings List of strings.
-	/// @param {string} $search Substring.
-	/// @param {string} $replace Replacement.
-	/// @return {list} Updated list of strings.
+
 	@function str-replace-all($strings, $search, $replace: '') {
 
 		@each $string in $strings {
@@ -321,8 +302,7 @@
 
 // Mixins.
 
-	/// Wraps @content in vendorized keyframe blocks.
-	/// @param {string} $name Name.
+
 	@mixin keyframes($name) {
 
 		@-moz-keyframes #{$name} { @content; }
@@ -332,15 +312,12 @@
 
 	}
 
-	/// Vendorizes a declaration's property and/or value(s).
-	/// @param {string} $property Property.
-	/// @param {mixed} $value String/list of value(s).
+
 	@mixin vendor($property, $value) {
 
-		// Determine if property should expand.
 			$expandProperty: index($vendor-properties, $property);
 
-		// Determine if value should expand (and if so, add '-prefix-' placeholder).
+
 			$expandValue: false;
 
 			@each $x in $value {
@@ -354,21 +331,21 @@
 				}
 			}
 
-		// Expand property?
+
 			@if $expandProperty {
 			    @each $vendor in $vendor-prefixes {
 			        #{$vendor}#{$property}: #{str-replace-all($value, '-prefix-', $vendor)};
 			    }
 			}
 
-		// Expand just the value?
+
 			@elseif $expandValue {
 			    @each $vendor in $vendor-prefixes {
 			        #{$property}: #{str-replace-all($value, '-prefix-', $vendor)};
 			    }
 			}
 
-		// Neither? Treat them as a normal declaration.
+
 			@else {
 		        #{$property}: #{$value};
 			}
